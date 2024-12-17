@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petshelterv0.LoginController">
+   <children>
+      <AnchorPane fx:id="anchorPane" prefHeight="826.0" prefWidth="1101.0" style="-fx-background-color: #e6ffe6;">
+
+         <!-- Title Pane (Header) -->
+         <Pane fx:id="titlePane" prefHeight="759.0" prefWidth="166.0" style="-fx-background-color: #4CAF50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+               <Label fx:id="titleLabel" layoutX="9.0" layoutY="202.0" prefHeight="195.0" prefWidth="131.0" style="-fx-font-family: Verdana; -fx-font-size: 24; -fx-text-fill: white;" text="Welcome to The Little Paws Shelter!" wrapText="true" />
+      
+               <!-- Image Pane (Right-Side) -->
+               <Pane fx:id="imagePane" layoutX="-7.0" layoutY="589.0" prefHeight="145.0" prefWidth="181.0">
+                  <children>
+                     <ImageView fitHeight="116.0" fitWidth="131.0" layoutX="25.0" layoutY="15.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@../../../images/loginpicture.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </Pane>
+            </children>
+         </Pane>
+
+         <!-- Content Pane (Login Form) -->
+         <Pane fx:id="contentsPane" layoutX="343.0" layoutY="206.0" prefHeight="339.0" prefWidth="402.0" style="-fx-background-color: #e6ffe6; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20;">
+            <children>
+               <Label fx:id="fullnameLabel" layoutX="27.0" layoutY="34.0" text="Full name:">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Label>
+               <TextField fx:id="fullnameField" layoutX="25.0" layoutY="55.0" prefHeight="30.0" prefWidth="350.0" promptText="Enter your name" />
+               <!-- Email Label and TextField -->
+               <Label fx:id="emailLabel" layoutX="25.0" layoutY="85.0" style="-fx-font-family: Comic Sans MS; -fx-font-size: 14.0;" text="Email:" />
+               <TextField fx:id="emailField" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="350.0" promptText="Enter your email address" style="-fx-font-size: 14.0;" />
+
+               <!-- Username Label and TextField -->
+               <Label fx:id="usernameLabel" layoutX="23.0" layoutY="135.0" style="-fx-font-family: Comic Sans MS; -fx-font-size: 14.0;" text="Username:" />
+               <TextField fx:id="usernameField" layoutX="25.0" layoutY="155.0" prefHeight="25.0" prefWidth="350.0" promptText="Enter your username" style="-fx-font-size: 14.0;" />
+
+               <!-- Password Label and PasswordField -->
+               <Label fx:id="passwordLabel" layoutX="25.0" layoutY="190.0" style="-fx-font-family: Comic Sans MS; -fx-font-size: 14.0;" text="Password:" />
+               <PasswordField fx:id="passwordField" layoutX="25.0" layoutY="210.0" prefHeight="25.0" prefWidth="350.0" promptText="Enter your password" style="-fx-font-size: 14.0;" />
+
+               <!-- Buttons -->
+               <Pane layoutX="25.0" layoutY="240.0">
+                  <Button fx:id="loginButton" layoutY="20.0" onAction="#onLoginButtonClick" prefWidth="160.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10;" text="Login" />
+                  <Button fx:id="registerButton" layoutX="180.0" layoutY="20.0" onAction="#onRegisterButtonClick" prefWidth="160.0" style="-fx-background-color: #90EE90; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10;" text="Register" />
+               </Pane>
+            </children>
+         </Pane>
+         <ImageView fitHeight="266.0" fitWidth="215.0" layoutX="770.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../images/pngwing.com.png" />
+            </image>
+         </ImageView>
+      </AnchorPane>
+   </children>
+</VBox>

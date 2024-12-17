@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="767.0" style="-fx-background-color: #C9E9D2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petshelterv0.MainPageController">
+    <top>
+        <Label text="The little paws shelter" textFill="WHITE" style="-fx-background-color: #4CAF50; -fx-padding: 10px;" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="Verdana Bold" size="16.0" />
+            </font>
+        </Label>
+    </top>
+    <center>
+        <ScrollPane fx:id="scrollPane">
+            <content>
+                <GridPane fx:id="petGridPane"/>
+            </content>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#onAddPetClicked" text="Add Pet" BorderPane.alignment="CENTER" style="-fx-padding: 10; -fx-margin: 10;"/>
+    </bottom>
+</BorderPane>
