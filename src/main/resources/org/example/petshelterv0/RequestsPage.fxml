@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petshelterv0.RequestsPageController">
+    <TableView fx:id="requestsTableView" prefWidth="800" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" />
+            <TableColumn fx:id="userIdColumn" text="User ID" />
+            <TableColumn fx:id="nameColumn" text="Pet Name" />
+            <TableColumn fx:id="breedColumn" text="Pet Type" />
+            <TableColumn fx:id="descriptionColumn" text="Description" />
+            <TableColumn fx:id="statusColumn" text="Status" />
+            <TableColumn fx:id="requestTypeColumn" text="Request Type" />
+            <TableColumn fx:id="requestDateColumn" text="Request Date" />
+
+            <!-- Action column for buttons -->
+            <TableColumn fx:id="actionsColumn" text="Actions" />
+        </columns>
+    </TableView>
+</VBox>

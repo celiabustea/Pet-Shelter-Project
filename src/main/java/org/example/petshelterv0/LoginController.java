@@ -8,10 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.application.Platform; // For UI updates on JavaFX thread
+import javafx.application.Platform;
 
 import java.io.IOException;
-import java.sql.SQLException;
+
 
 public class LoginController {
 
@@ -37,25 +37,27 @@ public class LoginController {
     @FXML
     private TextField fullnameField;
 
-    // Login button click event
     public void onLoginButtonClick() {
+        if (!validateInput(emailField.getText(), usernameField.getText(), passwordField.getText())) {
+            return;
+        }
+
         String email = emailField.getText();
         String username = usernameField.getText();
         String password = passwordField.getText();
 
         System.out.println("Login attempt with: " + email + ", " + username + ", " + password);
-
         ThreadManager.runInBackground(() -> {
-            User user = DBHelper.getUser(email); // Fetch the user from the database
+            User user = DBHelper.getUser(email);
             if (user != null && user.getPassword().equals(password)) {
-                boolean isAdmin = DBHelper.isAdmin(email); // Check if the user is an admin
+                String role = DBHelper.getUserRole(email);
                 Platform.runLater(() -> {
-                    if (isAdmin) {
+                    if ("admin".equalsIgnoreCase(role)) {
                         showAlert("Login Successful", "Welcome, Admin " + user.getUsername() + "!");
                     } else {
                         showAlert("Login Successful", "Welcome, " + user.getUsername() + "!");
                     }
-                    navigateToMainPage(); // Proceed to the main page
+                    navigateToMainPage(role);
                 });
             } else {
                 Platform.runLater(() -> {
@@ -65,7 +67,6 @@ public class LoginController {
         });
     }
 
-    // Register button click event
     @FXML
     protected void onRegisterButtonClick() {
         String email = emailField.getText();
@@ -76,14 +77,14 @@ public class LoginController {
         System.out.println("Register attempt with: " + email + ", " + username + ", " + password + ", " + fullname);
 
         ThreadManager.runInBackground(() -> {
-            boolean emailExists = DBHelper.isEmailExisting(email); // Check if email already exists
+            boolean emailExists = DBHelper.isEmailExisting(email);
             Platform.runLater(() -> {
                 if (emailExists) {
                     showAlert("Registration Failed", "Email already exists. Please choose another one.");
                 } else {
                     ThreadManager.runInBackground(() -> {
                         User newUser = new User(username, password, email, fullname, "general");
-                        DBHelper.saveUser(newUser); // Save the new user to the database
+                        DBHelper.saveUser(newUser);
                         Platform.runLater(() -> {
                             showAlert("Registration Successful", "User registered successfully.");
                         });
@@ -93,10 +94,14 @@ public class LoginController {
         });
     }
 
-    private void navigateToMainPage() {
+    private void navigateToMainPage(String role) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petshelterv0/mainpage.fxml"));
             Parent root = loader.load();
+            MainPageController controller = loader.getController();
+            controller.setLoggedInUserEmail(emailField.getText());
+            controller.setRole(role);
+
             Stage stage = (Stage) emailField.getScene().getWindow();
             Scene mainScene = new Scene(root);
             stage.setScene(mainScene);
@@ -107,11 +112,22 @@ public class LoginController {
         }
     }
 
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private boolean validateInput(String... inputs) {
+        for (String input : inputs) {
+            if (input == null || input.trim().isEmpty()) {
+                showAlert("Input Error", "All fields are required.");
+                return false;
+            }
+        }
+        return true;
     }
 }
