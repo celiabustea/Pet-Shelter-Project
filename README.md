@@ -42,11 +42,9 @@ Pet Shelter Management System is a Java-based application designed to efficientl
 - Admins can log in to manage pets and track adoptions.
 - Regular users can browse available pets and adopt them.
 
-## Future Improvements
-- Implementing a GUI with JavaFX.
-- Adding email notifications for successful adoptions.
-- Enhancing security with password encryption.
-
 ## Contact
 For any inquiries, feel free to reach out at **busteacarmina@gmail.com*.
+
+![Screenshot 2025-02-28 213238](https://github.com/user-attachments/assets/9c388899-d38b-4193-aa96-4563ca0e1a64)
+
 
