@@ -81,7 +81,7 @@ public class RequestsPageController {
         if (selectedRequest != null) {
             if ("Surrender".equals(selectedRequest.getRequestType())) {
                 handleSurrenderAccept(selectedRequest);
-            } else if ("Adoption".equals(selectedRequest.getRequestType())) {  // Updated here
+            } else if ("Adoption".equals(selectedRequest.getRequestType())) {
                 handleAdoptAccept(selectedRequest);
             } else {
                 showAlert("Error", "Unknown request type.");
@@ -94,6 +94,13 @@ public class RequestsPageController {
 
 
     private void handleSurrenderAccept(Request request) {
+        System.out.println("Checking if pet exists: " + request.getName());
+        if (DBHelper.isPetExists(request.getName())) {
+            showAlert("Error", "This pet already exists in the database.");
+            return; 
+        }
+
+        System.out.println("Pet doesn't exist, proceeding with surrender.");
         Pet surrenderedPet = new Pet(
                 request.getName(),
                 request.getAge(),
@@ -105,6 +112,7 @@ public class RequestsPageController {
         updateRequestStatus(request, "Accepted");
         showAlert("Success", "Surrender request accepted. Pet added to the database.");
     }
+
 
     private void handleAdoptAccept(Request request) {
         boolean petDeleted = deletePetByName(request.getName());
@@ -120,6 +128,7 @@ public class RequestsPageController {
     private void updateRequestStatus(Request request, String status) {
         String query = "UPDATE petrequests SET status = ? WHERE name = ?";
         DBHelper.executeUpdateQuery(query, status, request.getName());
+        System.out.println("Updated request status for pet: " + request.getName() + " to: " + status);
         if ("Accepted".equals(status)) {
             String insertPetQuery = "INSERT INTO pets (name, age, image_path, breed, description) "
                     + "SELECT name, age, image_path, breed, description "
@@ -128,11 +137,14 @@ public class RequestsPageController {
                  PreparedStatement stmt = connection.prepareStatement(insertPetQuery)) {
                 stmt.setString(1, request.getName());
                 stmt.executeUpdate();
+                System.out.println("Pet added to database from request: " + request.getName());
             } catch (SQLException e) {
+                System.err.println("Error inserting pet into database: " + e.getMessage());
                 e.printStackTrace();
             }
         }
     }
+
 
     private void handleDeny(Request request) {
         updateRequestStatus(request, "Denied");

@@ -38,6 +38,7 @@ public class ModelTest {
         assertEquals("/images/bella.jpg", request.getImagePath(), "Image path should match");
     }
 
+    //test for user constructor
     @Test
     public void testUserConstructor() {
         User user = new User("john_doe", "1234", "johndoe@gmail.com", "John Doe", "general");
@@ -50,7 +51,7 @@ public class ModelTest {
         assertEquals("general", user.getRole(), "Role should be 'general'");
     }
 
-//verifica daca toString returneaza ce trebe
+//verifica daca toString returneaza ce trebuie
     @Test
     public void testUserToString() {
         User user = new User("john_doe", "1234", "johndoe@gmail.com", "John Doe", "general");
@@ -59,22 +60,22 @@ public class ModelTest {
         assertEquals(expectedString, user.toString(), "The toString method should return the expected string representation of the user");
     }
 
-    //verfica daca se valideaza request-ul cum trebe
+    //verfica daca se valideaza request-ul cum trebuie
     @Test
     public void testIsValidRequest() {
-        // Valid request
+
         boolean result = Request.isValidRequest("Bella", "adopt", "john_doe");
         assertTrue(result, "The request should be valid");
 
-        // Invalid request (empty name)
+
         result = Request.isValidRequest("", "adopt", "john_doe");
         assertFalse(result, "The request should be invalid because the name is empty");
 
-        // Invalid request (invalid request type)
+
         result = Request.isValidRequest("Bella", "rescue", "john_doe");
         assertFalse(result, "The request should be invalid because the request type is not 'adopt' or 'surrender'");
 
-        // Invalid request (empty username)
+
         result = Request.isValidRequest("Bella", "adopt", "");
         assertFalse(result, "The request should be invalid because the username is empty");
     }

@@ -128,6 +128,19 @@ public class LoginController {
                 return false;
             }
         }
+
+        if (!isValidEmail(emailField.getText())) {
+            showAlert("Input Error", "Please enter a valid email address.");
+            return false;
+        }
+
         return true;
     }
+
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(emailRegex);
+    }
+
 }

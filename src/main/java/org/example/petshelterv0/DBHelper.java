@@ -54,19 +54,18 @@ public class DBHelper {
         List<Request> requests = new ArrayList<>();
         String query = "SELECT id, user_id, name, breed, description, status, request_date, request_type, age, image_path FROM petrequests";
 
-        try (ResultSet rs = DBHelper.executeSelectQuery(query)) { // Assuming DBHelper.executeSelectQuery is your utility method
+        try (ResultSet rs = DBHelper.executeSelectQuery(query)) {
             while (rs != null && rs.next()) {
                 int id = rs.getInt("id");
                 String userId = rs.getString("user_id");
-                String name = rs.getString("name"); // Fetch name
-                String breed = rs.getString("breed"); // Fetch breed
+                String name = rs.getString("name");
+                String breed = rs.getString("breed");
                 String description = rs.getString("description");
                 String status = rs.getString("status");
                 String requestDate = rs.getString("request_date");
                 String requestType = rs.getString("request_type");
                 int age = rs.getInt("age"); // Fetch age
-                String imagePath = rs.getString("image_path"); // Fetch image path
-
+                String imagePath = rs.getString("image_path");
                 Request request = new Request(id, userId, name, breed, description, status, requestDate, requestType, age, imagePath);
                 requests.add(request);
             }
@@ -79,11 +78,15 @@ public class DBHelper {
 
 
     public static void savePet(Pet pet) {
+        if (pet.getName() == null || pet.getName().isEmpty()) {
+            System.err.println("Pet name is required");
+            return;
+        }
         String query = "INSERT INTO pets (name, age, image_path, breed, description) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            System.out.println("Saving pet: " + pet.getName() + ", Age: " + pet.getAge());  // Debugging print
+            System.out.println("Saving pet: " + pet.getName() + ", Age: " + pet.getAge());
 
             stmt.setString(1, pet.getName());
             stmt.setInt(2, pet.getAge());
@@ -91,7 +94,7 @@ public class DBHelper {
             stmt.setString(4, pet.getBreed());
             stmt.setString(5, pet.getDescription());
 
-            int rowsAffected = stmt.executeUpdate();  // Execute the insert statement
+            int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Pet saved successfully!");
             } else {
@@ -107,6 +110,10 @@ public class DBHelper {
 
     public static void saveUser(User user) {
         try (Connection connection = getConnection()) {
+            if (user.getUsername() == null || user.getUsername().isEmpty()) {
+                System.err.println("Username is required");
+                return;
+            }
             String query = "INSERT INTO users (username, password, email, full_name, role) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, user.getUsername());
@@ -114,7 +121,7 @@ public class DBHelper {
                 stmt.setString(3, user.getEmail());
                 stmt.setString(4, user.getFullName());
                 stmt.setString(5, user.getRole());
-                stmt.executeUpdate(); // Execute the insert
+                stmt.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,6 +145,10 @@ public class DBHelper {
     }
 
     public static User getUser(String email) {
+        if (email == null || !isValidEmail(email)) {
+            System.err.println("Invalid email address");
+            return null;
+        }
         try (Connection connection = getConnection()) {
             String query = "SELECT * FROM users WHERE email = ?";
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -148,7 +159,7 @@ public class DBHelper {
                     String password = rs.getString("password");
                     String fullName = rs.getString("full_name");
                     String role = rs.getString("role");
-                    return new User(username, password, email, fullName, role); // Return user object
+                    return new User(username, password, email, fullName, role);
                 }
             }
         } catch (SQLException e) {
@@ -179,6 +190,10 @@ public class DBHelper {
     }
 
     public static boolean deletePetByName(String petName) {
+        if (petName == null || petName.isEmpty()) {
+            System.err.println("Pet name is required");
+            return false;
+        }
         String sql = "DELETE FROM pets WHERE name = ?";
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -190,4 +205,29 @@ public class DBHelper {
             return false;
         }
     }
+    private static boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(emailRegex);
+    }
+
+    public static boolean isPetExists(String petName) {
+        String query = "SELECT COUNT(*) FROM pets WHERE name = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, petName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

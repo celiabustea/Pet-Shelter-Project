@@ -232,15 +232,13 @@ public class MainPageController {
             showAlert("Error", "User not found.");
             return;
         }
-
-        String fullDescription = String.format("Species: %s, Description: %s", species, description);
         String query = "INSERT INTO petrequests (name, breed, description, user_id, request_date, status, request_type, image_path, age) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         DBHelper.executeUpdateQuery(query,
                 name,
-                "Unknown",
-                fullDescription,
+                species,
+                description,
                 userId,
                 java.time.LocalDate.now().toString(),
                 "Pending",
@@ -248,8 +246,10 @@ public class MainPageController {
                 imagePath,
                 age
         );
+
         showAlert("Success", "Your surrender request has been submitted.");
     }
+
 
 
 

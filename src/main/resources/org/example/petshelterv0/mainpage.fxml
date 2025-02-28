@@ -9,13 +9,14 @@
         <HBox alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-padding: 10;">
             <Label text="The Little Paws Shelter" textFill="WHITE">
                 <font>
-                    <Font name="Verdana Bold" size="16.0" />
+                    <Font name="Verdana Bold" size="20.0" />
                 </font>
             </Label>
         </HBox>
     </top>
+
     <center>
-        <ScrollPane fx:id="scrollPane">
+        <ScrollPane fx:id="scrollPane" style="-fx-background-color: transparent;">
             <content>
                 <GridPane fx:id="petGridPane" style="-fx-padding: 20;">
                     <!-- Defining 3 columns, each taking up equal space -->
@@ -28,16 +29,22 @@
             </content>
         </ScrollPane>
     </center>
-    <bottom>
-        <HBox spacing="10" style="-fx-padding: 10;">
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#onAddPetClicked" text="Add Pet" style="-fx-padding: 10;" />
-            <Button fx:id="deletePetButton" mnemonicParsing="false" onAction="#onDeletePetClicked" text="Delete Pet" style="-fx-padding: 10;" visible="false" />
-            <Button fx:id="submitRequestButton" text="Submit Request" onAction="#onSubmitRequestClicked" />
-            <Button fx:id="viewRequestsButton" text="View Requests" onAction="#onViewRequestsClicked"/>
 
+    <bottom>
+        <HBox spacing="20" style="-fx-padding: 20; -fx-background-color: #E0F7FA;">
+            <!-- Remove Region HBox.hgrow="ALWAYS" to align buttons to the left -->
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10;">
+                <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#onAddPetClicked" text="Add Pet" style="-fx-padding: 10; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <Button fx:id="deletePetButton" mnemonicParsing="false" onAction="#onDeletePetClicked" text="Delete Pet" style="-fx-padding: 10; -fx-background-color: #FF7043; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" visible="false" />
+            </HBox>
+
+            <!-- Adjust the remaining buttons -->
+            <Region HBox.hgrow="ALWAYS" />
+
+            <HBox alignment="CENTER_RIGHT" spacing="20" style="-fx-padding: 10;">
+                <Button fx:id="submitRequestButton" text="Submit Request" onAction="#onSubmitRequestClicked" style="-fx-padding: 10; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <Button fx:id="viewRequestsButton" text="View Requests" onAction="#onViewRequestsClicked" style="-fx-padding: 10; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+            </HBox>
         </HBox>
     </bottom>
-
-
 </BorderPane>
